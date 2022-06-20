@@ -13,6 +13,13 @@ const UserSchema = (sequelize, DataTypes) => {
   }, {
     timestamps: false,
   });
+
+  User.associate = (models) => {
+    User.hasMany(models.BlogPost, {
+      as: 'posts',
+      foreignKey: 'userId'
+    });
+  };
   return User;
 };
 
