@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json());
 app.use('/login', require('./routes/login'));
 app.use('/user', require('./routes/user'));
+app.use('/categories', require('./routes/categories'));
 
 app.use(errorMiddleware);
 
