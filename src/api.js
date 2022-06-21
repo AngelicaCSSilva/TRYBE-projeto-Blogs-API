@@ -5,7 +5,8 @@ const errorMiddleware = require('./middlewares/error');
 const app = express();
 
 app.use(express.json());
-app.use(require('./routes/router'));
+app.use('/login', require('./routes/login'));
+app.use('/user', require('./routes/user'));
 
 app.use(errorMiddleware);
 
