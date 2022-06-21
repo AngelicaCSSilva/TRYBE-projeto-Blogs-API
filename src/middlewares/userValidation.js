@@ -8,6 +8,16 @@ const nameValidation = (req, res, next) => {
   next();
 };
 
+const emailValidation = (req, res, next) => {
+  const { email } = req.body;
+  const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!validEmail.test(email)) {
+    return res.status(400).json({ message: '"email" must be a valid email' });
+  }
+  next();
+};
+
 module.exports = {
   nameValidation,
+  emailValidation,
 };
