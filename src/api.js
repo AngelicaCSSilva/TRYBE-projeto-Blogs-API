@@ -8,6 +8,7 @@ app.use(express.json());
 app.use('/login', require('./routes/login'));
 app.use('/user', require('./routes/user'));
 app.use('/categories', require('./routes/categories'));
+app.use('/post', require('./routes/post'));
 
 app.use(errorMiddleware);
 
