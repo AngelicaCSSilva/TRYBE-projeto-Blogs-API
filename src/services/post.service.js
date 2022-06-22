@@ -3,7 +3,7 @@ const sequelizeConfig = require('../database/config/config');
 
 const sequelize = new Sequelize(sequelizeConfig.development);
 
-const { BlogPost, PostCategory, Category } = require('../database/models');
+const { BlogPost, PostCategory, Category, User } = require('../database/models');
   
 const categoriesValidation = async (categoryIds) => {
   const result = await Promise.all(
@@ -39,4 +39,12 @@ const createPost = async ({ title, content, categoryIds }, userId) => {
   }
 };
 
-module.exports = { createPost };
+const getPosts = async () => {
+  const posts = await BlogPost.findAll({ include: [
+    { model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Category, as: 'categories', through: { attributes: [] } },
+  ] });
+  return posts;
+};
+
+module.exports = { createPost, getPosts };
