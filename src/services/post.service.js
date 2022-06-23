@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const sequelizeConfig = require('../database/config/config');
 
 const sequelize = new Sequelize(sequelizeConfig.development);
@@ -47,6 +48,23 @@ const getPosts = async () => {
   return posts;
 };
 
+const getSearchPost = async (query) => {
+  const posts = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: `%${query}%` } },
+        { content: { [Op.like]: `%${query}%` } },
+      ],
+    },
+  });
+  if (!posts) return [];
+  return posts;
+};
+
 const getPostById = async (id) => {
   const post = await BlogPost.findOne({ where: { id },
     include: [
@@ -89,4 +107,5 @@ module.exports = {
   getPostById,
   updatePost,
   deletePost,
+  getSearchPost,
 };
